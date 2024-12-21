@@ -1,6 +1,11 @@
 {
+    "id": "Bitburner Android",
     "name": "Bitburner",
     "short_name": "Bitburner",
+    "description": "Bitburner is a programming-based incremental game that revolves around hacking and cyberpunk themes.",
+    "launch_handler": {
+        "client_mode": "auto"
+    },
     "start_url": "https://kirbyjeff.github.io/",
     "icons": [
         {
@@ -16,5 +21,7 @@
     ],
     "theme_color": "#ffffff",
     "background_color": "#ffffff",
-    "display": "standalone"
+    "display": "fullscreen-sticky",
+    "orientation": "any",
+    
 }
