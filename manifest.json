@@ -1,6 +1,7 @@
 {
     "name": "Bitburner",
     "short_name": "Bitburner",
+    "start_url": "https://kirbyjeff.github.io/"
     "icons": [
         {
             "src": "android-chrome-192x192.png",
