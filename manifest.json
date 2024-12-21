@@ -3,9 +3,9 @@
     "name": "Bitburner",
     "short_name": "Bitburner",
     "description": "Bitburner is a programming-based incremental game that revolves around hacking and cyberpunk themes.",
-    "launch_handler": {
+    "launch_handler": [
         "client_mode": "auto"
-    },
+        ],
     "start_url": "https://kirbyjeff.github.io/",
     "icons": [
         {
