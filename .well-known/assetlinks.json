@@ -1,0 +1,10 @@
+[{
+ "relation": ["delegate_permission/common.handle_all_urls"],
+ "target": {
+   "namespace": "Bitburner",
+   "package_name": "io.github.kirbyjeff.bitburner",
+   "sha256_cert_fingerprints": [
+     "09:28:0D:4F:27:1C:43:28:FB:23:F7:65:A3:6D:0B:5E:D4:D4:76:71:BB:AF:F8:18:96:5D:7F:82:18:DA:42:5C"
+   ]
+ }
+}]
