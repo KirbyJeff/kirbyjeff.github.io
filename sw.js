@@ -5,21 +5,27 @@ const appShellFiles = [
 ];
 const cache = caches.open(cacheName);
 
+
+
 // Installing Service Worker
+
+self.addEventListener('install', (e) => {
+  console.log('[Service Worker] Install');
+  e.waitUntil((async () => {
+    console.log('[Service Worker] Caching all: app shell and content');
+    await cache.addAll(contentToCache);
+  })());
+});
+
 if ('serviceWorker' in navigator) {
   window.addEventListener('`load`', () => {
   navigator.serviceWorker.register('sw.js', { scope:'./' })
       .then((registration) => {
           console.log('Registration completed successfully',registration);
-          e.waitUntil((async () => {
-          console.log('[Service Worker] Caching all: app shell and content');
-          await cache.addAll(contentToCache);
-          })());
-      })
+          })
       .catch((error) => {
           console.log('Registration failed', error);
-      });
-})}
+      })})};
 
 // Fetching content using Service Worker
 self.addEventListener('fetch', (e) => {
