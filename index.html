@@ -41,15 +41,7 @@
     <script defer src="dist/vendor.bundle.js"></script>
     <script defer src="dist/main.bundle.js"></script>
     <script>
-      if ('serviceWorker' in navigator) {
-  window.addEventListener('`load`', () => {
-  navigator.serviceWorker.register('sw.js', { scope:'./' })
-      .then((registration) => {
-          console.log('Registration completed successfully',registration);
-          })
-      .catch((error) => {
-          console.log('Registration failed', error);
-      })})};
+      navigator.serviceWorker.register('sw.js')
     </script>
   </head>
   <body>
