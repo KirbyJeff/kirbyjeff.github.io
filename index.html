@@ -40,12 +40,19 @@
     <link rel="icon" href="dist/favicon.ico">
     <script defer src="dist/vendor.bundle.js"></script>
     <script defer src="dist/main.bundle.js"></script>
-    <script>
       <script>
         if (typeof navigator.serviceWorker !== 'undefined') {
-            navigator.serviceWorker.register('sw.js')
-            }
-</script>
+              window.addEventListener('`load`', () => {
+              navigator.serviceWorker.register('sw.js')
+                .then((registration) => {
+                    console.log('Registration completed successfully',registration);
+                      })
+                .catch((error) => {
+                    console.log('Registration failed', error);
+                    }
+                )
+            }                        
+        }
     </script>
   </head>
   <body>
