@@ -2,7 +2,11 @@ const CACHE_NAME = 'bitburner-android';
 
 // Add whichever assets you want to pre-cache here:
 const PRECACHE_ASSETS = [
-  '/*/*/*/*/*/*/*'
+  '/dist/*/*/*/*/*/*',
+  '/index.html',
+  '/manifest.json',
+  '/.well-known/*',
+  '/sw.js'
 ]
 
 // Listener for the install event - pre-caches our assets list on service worker install.
