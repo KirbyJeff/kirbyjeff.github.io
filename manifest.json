@@ -6,6 +6,8 @@
   "short_name": "Bitburner",
   "id": "bitburner-android",
   "description": "Bitburner is a programming-based incremental game that revolves around hacking and cyberpunk themes.",
+  "display": "fullscreen",
+  "orientation": "any",
   "icons": [
         {
             "src": "dist/android-chrome-192x192.png",
