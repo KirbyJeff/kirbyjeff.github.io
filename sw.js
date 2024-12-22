@@ -1,45 +1,34 @@
-// Files to cache
-const cacheName = 'bitburner-android';
-const appShellFiles = [
-  '/*/*/*/*/*/*/*',
-];
+const CACHE_NAME = 'bitburner-android';
 
-// Installing Service Worker
-self.addEventListener('install', (e) => {
-  console.log('[Service Worker] Install');
-  e.waitUntil((async () => {
-    const cache = await caches.open(cacheName);
-    console.log('[Service Worker] Caching all: app shell and content');
-    await cache.addAll(contentToCache);
-  })());
+// Add whichever assets you want to pre-cache here:
+const PRECACHE_ASSETS = [
+  '/*/*/*/*/*/*/*'
+]
+
+// Listener for the install event - pre-caches our assets list on service worker install.
+self.addEventListener('install', event => {
+    event.waitUntil((async () => {
+        const cache = await caches.open(CACHE_NAME);
+        cache.addAll(PRECACHE_ASSETS);
+    })());
 });
 
-if ('serviceWorker' in navigator) {
-  window.addEventListener('`load`', () => {
-  navigator.serviceWorker.register('sw.js', { scope:'./' })
-      .then((registration) => {
-          console.log('Registration completed successfully',registration);
-          })
-      .catch((error) => {
-          console.log('Registration failed', error);
-      })})};
+self.addEventListener('activate', event => {
+  event.waitUntil(self.clients.claim());
+});
 
-// Fetching content using Service Worker
-self.addEventListener('fetch', (e) => {
-    // Cache http and https only, skip unsupported chrome-extension:// and file://...
-    if (!(
-       e.request.url.startsWith('http:') || e.request.url.startsWith('https:')
-    )) {
-        return; 
-    }
-
-  e.respondWith((async () => {
-    const r = await caches.match(e.request);
-    console.log(`[Service Worker] Fetching resource: ${e.request.url}`);
-    if (r) return r;
-    const response = await fetch(e.request);
-    console.log(`[Service Worker] Caching new resource: ${e.request.url}`);
-    cache.put(e.request, response.clone());
-    return response;
-  })());
+self.addEventListener('fetch', event => {
+  event.respondWith(async () => {
+      const cache = await caches.open(CACHE_NAME);
+      // match the request to our cache
+      const cachedResponse = await cache.match(event.request);
+      // check if we got a valid response
+      if (cachedResponse !== undefined) {
+          // Cache hit, return the resource
+          return cachedResponse;
+      } else {
+        // Otherwise, go to the network
+          return fetch(event.request)
+      };
+  });
 });
