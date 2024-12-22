@@ -3,7 +3,7 @@ const cacheName = 'bitburner-android';
 const appShellFiles = [
   '/*/*/*/*/*/*/*',
 ];
-const cache = await caches.open(cacheName);
+const cache = caches.open(cacheName);
 
 // Installing Service Worker
 if ('serviceWorker' in navigator) {
