@@ -41,7 +41,11 @@
     <script defer src="dist/vendor.bundle.js"></script>
     <script defer src="dist/main.bundle.js"></script>
     <script>
-      navigator.serviceWorker.register('sw.js')
+      <script>
+        if (typeof navigator.serviceWorker !== 'undefined') {
+            navigator.serviceWorker.register('sw.js')
+            }
+</script>
     </script>
   </head>
   <body>
