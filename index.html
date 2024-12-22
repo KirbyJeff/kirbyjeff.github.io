@@ -40,23 +40,26 @@
     <link rel="icon" href="dist/favicon.ico">
     <script defer src="dist/vendor.bundle.js"></script>
     <script defer src="dist/main.bundle.js"></script>
-      <script>
-        if (typeof navigator.serviceWorker !== 'undefined') {
-              window.addEventListener('`load`', () => {
-              navigator.serviceWorker.register('sw.js')
-                .then((registration) => {
-                    console.log('Registration completed successfully',registration);
-                      })
-                .catch((error) => {
-                    console.log('Registration failed', error);
-                    }
-                )
-            }
-         )
-      }
-    </script>
+      
   </head>
   <body>
+    <script>
+if ("serviceWorker" in navigator) {
+  // Register a service worker hosted at the root of the
+  // site using the default scope.
+  navigator.serviceWorker.register("/sw.js").then(
+    (registration) => {
+      console.log("Service worker registration succeeded:", registration);
+    },
+    (error) => {
+      console.error(`Service worker registration failed: ${error}`);
+    },
+  );
+} else {
+  console.error("Service workers are not supported.");
+}
+
+    </script>
     <div id="root" style="display:flex"></div>
   </body>
 </html>
