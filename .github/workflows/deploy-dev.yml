@@ -4,9 +4,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+  contents: write
 
 concurrency:
   group: "pages"
@@ -14,20 +12,30 @@ concurrency:
 
 jobs:
   deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: pages  # Checkout the 'pages' branch if it exists
+          fetch-depth: 0  # Get full branch history
       - uses: actions/setup-node@v4
         with:
           node-version: 20
       - run: npm ci
       - run: npm run build
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: ".app"
-      - name: Deploy to gh pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+
+      - name: Deploy to Pages Branch
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          
+          # Ensure we are on the 'pages' branch, or create it if missing
+          git checkout pages || git checkout -b pages
+          
+          # Copy new build to the root of the branch
+          cp -r .app/* ./
+          
+          # Stage, commit, and push changes
+          git add .
+          git diff --quiet && git diff --staged --quiet || git commit -m "Deploy updated build to pages branch"
+          git push origin pages
