@@ -18,8 +18,7 @@ jobs:
       - name: Clone dev branch
         run: |
           git clone --branch dev https://github.com/${{ github.repository }} dev-branch
-          cd dev-branch
-          
+      
       # Set up Node.js environment
       - uses: actions/setup-node@v4
         with:
@@ -29,7 +28,7 @@ jobs:
       - name: Install dependencies
         run: |
           cd dev-branch
-          if [ -f package-lock.json ]; then
+          if [ -f package.json ]; then
             npm ci
           else
             echo "package.json not found in dev branch"
@@ -45,14 +44,15 @@ jobs:
       # Deploy the build output to the 'pages' branch
       - name: Deploy to Pages Branch
         run: |
+          cd dev-branch
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           
           # Check out the pages branch or create it
           git checkout pages || git checkout -b pages
           
-          # Copy the build output from dev-branch/.app to the root
-          cp -r dev-branch/.app/* ./
+          # Copy the build output from .app to the root
+          cp -r .app/* ./
           
           # Stage, commit, and push changes
           git add .
