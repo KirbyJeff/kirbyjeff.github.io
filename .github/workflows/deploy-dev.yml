@@ -14,31 +14,45 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: pages  # Checkout the 'pages' branch if it exists
-          fetch-depth: 0  # Get full branch history
+      # Clone the dev branch directly
+      - name: Clone dev branch
+        run: |
+          git clone --branch dev https://github.com/${{ github.repository }} dev-branch
+          cd dev-branch
+          
+      # Set up Node.js environment
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-      - run: |
-           if ( -f package-lock.json ); then
-             npm ci
-           else
-             npm install
-           fi
-      - run: npm run build
+      
+      # Install dependencies from dev branch
+      - name: Install dependencies
+        run: |
+          cd dev-branch
+          if [ -f package-lock.json ]; then
+            npm ci
+          else
+            echo "package.json not found in dev branch"
+            exit 1
+          fi
 
+      # Build the project
+      - name: Build project
+        run: |
+          cd dev-branch
+          npm run build
+      
+      # Deploy the build output to the 'pages' branch
       - name: Deploy to Pages Branch
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           
-          # Ensure we are on the 'pages' branch, or create it if missing
+          # Check out the pages branch or create it
           git checkout pages || git checkout -b pages
           
-          # Copy new build to the root of the branch
-          cp -r .app/* ./
+          # Copy the build output from dev-branch/.app to the root
+          cp -r dev-branch/.app/* ./
           
           # Stage, commit, and push changes
           git add .
