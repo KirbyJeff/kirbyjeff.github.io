@@ -59,7 +59,6 @@ import { AlertManager } from "./React/AlertManager";
 import { PromptManager } from "./React/PromptManager";
 import { FactionInvitationManager } from "../Faction/ui/FactionInvitationManager";
 import { calculateAchievements } from "../Achievements/Achievements";
-
 import { RecoveryMode, RecoveryRoot } from "./React/RecoveryRoot";
 import { AchievementsRoot } from "../Achievements/AchievementsRoot";
 import { ErrorBoundary } from "./ErrorBoundary";
